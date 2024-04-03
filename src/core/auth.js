@@ -1,11 +1,11 @@
-const creatorService = require('../service/delaware');
+const accountService = require('../service/account');
 
 
 const requireAuthentication = async (ctx, next) => {
     const { authorization } = ctx.headers;
 
 
-    const { authToken, ...session } = await creatorService.checkAndParseSession(
+    const { authToken, ...session } = await accountService.checkAndParseSession(
         authorization
     );
 
@@ -19,7 +19,7 @@ const requireAuthentication = async (ctx, next) => {
 const makeRequireRole = (role) => async (ctx, next) => {
     const { roles = [] } = ctx.state.session;
 
-    creatorService.checkRole(role, roles);
+    accountService.checkRole(role, roles);
     return next();
 };
 

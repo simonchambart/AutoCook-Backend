@@ -5,10 +5,10 @@ module.exports = {
         await knex.schema.createTable(tables.account, (table) => {
             table.increments('id');
 
-            table.string('name', 255).notNullable();
+            table.string('userName', 255).notNullable();
 
             // Give this unique index a name for better error handling in service layer
-            table.unique('name', 'idx_account_name_unique');
+            table.unique('userName', 'idx_account_name_unique');
         });
     },
     down: (knex) => {
