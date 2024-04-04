@@ -1,6 +1,6 @@
-const Router = require('@koa/router');
+const Router = require("@koa/router")
 
-const installAccountRouter = require('./_accounts');
+const installAccountRouter = require("./_accounts")
 
 /**
  * Install all routes in the given Koa application.
@@ -9,9 +9,9 @@ const installAccountRouter = require('./_accounts');
  */
 module.exports = (app) => {
     const router = new Router({
-        prefix: '/api',
-    });
-    installAccountRouter(router);
+        prefix: "/api",
+    })
+    installAccountRouter(router)
 
-    app.use(router.routes()).use(router.allowedMethods());
-};
+    app.use(router.routes()).use(router.allowedMethods())
+}

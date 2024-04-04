@@ -1,16 +1,16 @@
 module.exports = {
     log: {
-        level: 'info',
-        disabled: false
+        level: "info",
+        disabled: false,
     },
     cors: {
-        maxAge: 3 * 60 * 60
+        maxAge: 3 * 60 * 60,
     },
     database: {
-        client: 'mysql2',
-        host: 'localhost',
+        client: "mysql2",
+        host: "localhost",
         port: 3306,
-        name: 'DelawareDB',
+        name: "delaware-prod",
     },
     auth: {
         argon: {
@@ -20,10 +20,10 @@ module.exports = {
             memoryCost: 2 ** 17,
         },
         jwt: {
-            secret: 'eenveeltemoeilijksecretdatniemandooitzalradenandersisdesitegehacked',     //dit best in de .env file zetten voor beveiliging
+            secret: "eenveeltemoeilijksecretdatniemandooitzalradenandersisdesitegehacked" /* dit best in de .env file zetten voor beveiliging */,
             expirationInterval: 60 * 60 * 1000, // ms (1 hour)
-            issuer: 'vc-01',
-            audience: 'vc-01',
+            issuer: "vc-01",
+            audience: "vc-01",
         },
     },
-};
+}

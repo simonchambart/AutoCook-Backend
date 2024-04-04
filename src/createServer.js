@@ -1,49 +1,51 @@
-const Koa = require('koa');
-const config = require('config');
+const Koa = require("koa")
+const config = require("config")
 
-const { initializeLogger, getLogger } = require('./core/logging');
-const { initializeDatabase, shutdownDatabase } = require('./data');
-const installRest = require('./rest');
-const installMiddleware = require('./core/installMiddleware');
+const { initializeLogger, getLogger } = require("./core/logging")
+const { initializeDatabase, shutdownDatabase } = require("./data")
+const installRest = require("./rest")
+const installMiddleware = require("./core/installMiddleware")
 
-const NODE_ENV = config.get('env');
-const LOG_LEVEL = config.get('log.level');
-const LOG_DISABLED = config.get('log.disabled');
+const NODE_ENV = config.get("env")
+const LOG_LEVEL = config.get("log.level")
+const LOG_DISABLED = config.get("log.disabled")
 
-module.exports = async function createServer () {
+module.exports = async function createServer() {
     initializeLogger({
         level: LOG_LEVEL,
         disabled: LOG_DISABLED,
-        isProduction: NODE_ENV === 'production',
+        isProduction: NODE_ENV === "production",
         defaultMeta: { NODE_ENV },
-    });
+    })
 
-    await initializeDatabase();
+    await initializeDatabase()
 
-    const app = new Koa();
+    const app = new Koa()
 
-    installMiddleware(app);
+    installMiddleware(app)
 
-    installRest(app);
+    installRest(app)
 
     return {
-        getApp(){
-            return app;
+        getApp() {
+            return app
         },
 
-        start(){
+        start() {
             return new Promise((resolve) => {
-                const port = config.get('port');
-                app.listen(port);
-                getLogger().info(`🚀 Server listening on http://localhost:${port}`);
-                resolve();
-            });
+                const port = config.get("port")
+                app.listen(port)
+                getLogger().info(
+                    `🚀 Server listening on http://localhost:${port}`,
+                )
+                resolve()
+            })
         },
 
-        async stop(){
-            app.removeAllListeners();
-            await shutdownDatabase();
-            getLogger().info('Goodbye');
-        }
-    };
-};
+        async stop() {
+            app.removeAllListeners()
+            await shutdownDatabase()
+            getLogger().info("Goodbye")
+        },
+    }
+}
