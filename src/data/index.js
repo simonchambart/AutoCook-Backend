@@ -46,7 +46,7 @@ const initializeDatabase = async () => {
         log: {
             debug: knexLogger(logger, 'debug'),
             warn: knexLogger(logger, 'warn'),
-            eroor: knexLogger(logger, 'error')
+            error: knexLogger(logger, 'error')
         }
     };
     knexInstance = knex(knexOptions);

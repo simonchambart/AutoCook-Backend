@@ -11,7 +11,7 @@ const checkAccountId = (ctx, next) => {
     const { id } = ctx.params;
 
     // You can only get our own data unless you're an admin
-    if (id !== accountId && !roles.includes(Role.PREMIUM)) {
+    if (id !== accountId && !roles.includes(Role.ADMIN)) {
         return ctx.throw(
             403,
             'You are not allowed to view this acount\'s information',
