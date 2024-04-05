@@ -23,7 +23,7 @@ module.exports = {
             memoryCost: 2 ** 17,
         },
         jwt: {
-            secret: "eenveeltemoeilijksecretdatniemandooitzalradenandersisdesitegehacked" /* dit best in de .env file zetten voor beveiliging */,
+            secret: "eenveeltemoeilijksecretdatniemandooitzalradenandersisdesitegehacked" /* dit best in de .env.development file zetten voor beveiliging */,
             expirationInterval: 60 * 60 * 1000, // ms (1 hour)
             issuer: "vc-01",
             audience: "vc-01",
