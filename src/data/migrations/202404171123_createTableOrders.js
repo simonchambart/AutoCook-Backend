@@ -24,7 +24,5 @@ module.exports = {
 
         })
     },
-    down: (knex) => {
-        return knex.schema.dropTableIfExists(tables.order)
-    },
+    down: (knex) => knex.schema.dropTableIfExists(tables.order),
 }

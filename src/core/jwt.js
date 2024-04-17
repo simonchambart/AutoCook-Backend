@@ -7,13 +7,13 @@ const JWT_ISSUER = config.get("auth.jwt.issuer")
 const JWT_EXPIRATION_INTERVAL = config.get("auth.jwt.expirationInterval")
 
 const generateJWT = (account) => {
-    //eigen claims
+    // eigen claims
     const tokenData = {
         accountId: account.id,
         roles: account.roles,
     }
 
-    //voorgedefinieerde claims
+    // voorgedefinieerde claims
     const signOptions = {
         expiresIn: Math.floor(JWT_EXPIRATION_INTERVAL / 1000),
         audience: JWT_AUDIENCE,

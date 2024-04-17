@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const Joi = require("joi")
 
 const JOI_OPTIONS = {
@@ -8,7 +9,7 @@ const JOI_OPTIONS = {
     prescence: "required",
 }
 
-//deze methode krijgt errorobject door en vormt deze om naar iets leesbaar door de client
+// deze methode krijgt errorobject door en vormt deze om naar iets leesbaar door de client
 const cleanupJoiError = (error) =>
     error.details.reduce((resultObj, { message, path, type }) => {
         const joinedPath = path.join(".") || "value"
@@ -33,9 +34,9 @@ const validate = (schema) => {
     }
 
     return (ctx, next) => {
-        //valideren en de fouten omvormen naar error object
+        // valideren en de fouten omvormen naar error object
         const errors = {}
-        //voor de params
+        // voor de params
         if (!Joi.isSchema(schema.params)) {
             schema.params = Joi.object(schema.params || {})
         }
@@ -48,7 +49,7 @@ const validate = (schema) => {
             ctx.params = paramsValue
         }
 
-        //voor de body
+        // voor de body
         if (!Joi.isSchema(schema.body)) {
             schema.body = Joi.object(schema.body || {})
         }
@@ -63,7 +64,7 @@ const validate = (schema) => {
             ctx.request.body = bodyValue
         }
 
-        //voor de query
+        // voor de query
         if (!Joi.isSchema(schema.query)) {
             schema.query = Joi.object(schema.query || {})
         }
@@ -78,7 +79,7 @@ const validate = (schema) => {
             ctx.query = queryValue
         }
 
-        //als er effectief fouten zijn: throw een 'ERROR 400'
+        // als er effectief fouten zijn: throw een 'ERROR 400'
         if (Object.keys(errors).length) {
             ctx.throw(400, "Validation failed, check details for information", {
                 code: "VALIDATION_FAILED",

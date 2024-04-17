@@ -24,7 +24,7 @@ const knexLogger = (logger, level) => (message) => {
     }
 }
 
-//connection with db, migrating, seeding
+// connection with db, migrating, seeding
 const initializeDatabase = async () => {
     const logger = getLogger()
     const knexOptions = {
@@ -50,11 +50,11 @@ const initializeDatabase = async () => {
         },
     }
     knexInstance = knex(knexOptions)
-    //check if db is up and running
+    // check if db is up and running
     try {
         await knexInstance.raw("SELECT 1+1 AS result")
         await knexInstance.raw(`CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME}`)
-        //delete connection and creating a new one
+        // delete connection and creating a new one
         await knexInstance.destroy()
         knexOptions.connection.database = DATABASE_NAME
         knexInstance = knex(knexOptions)

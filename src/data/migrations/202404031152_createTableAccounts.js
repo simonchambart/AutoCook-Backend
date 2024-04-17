@@ -19,7 +19,5 @@ module.exports = {
             table.unique("userName", "idx_account_name_unique")
         })
     },
-    down: (knex) => {
-        return knex.schema.dropTableIfExists(tables.account)
-    },
+    down: (knex) => knex.schema.dropTableIfExists(tables.account),
 }
