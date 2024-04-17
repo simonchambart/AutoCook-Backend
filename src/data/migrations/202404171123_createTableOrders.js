@@ -17,12 +17,10 @@ module.exports = {
             table.integer("postcode").unsigned();
             table.string("street",255).notNullable();
 
-            table.integer("customer_userId");
-            table.integer("supplier_userId");
-
-            // Give this foreign key a name for better error handling in service layer
-            table.foreign('customer_userId', 'fk_customer_account').references(`${tables.account}.id`).onDelete('CASCADE');
-            table.foreign('supplier_userId', 'fk_supplier_account').references(`${tables.account}.id`).onDelete('CASCADE');
+            table.integer("customer_userId").unsigned();
+            table.integer("supplier_userId").unsigned();
+            table.foreign("customer_userId").references(`${tables.account}.id`).onDelete('CASCADE');
+            table.foreign("supplier_userId").references(`${tables.account}.id`).onDelete('CASCADE');
 
         })
     },
