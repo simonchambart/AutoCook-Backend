@@ -1,11 +1,12 @@
 const winston = require("winston")
+
 const { combine, timestamp, colorize, printf } = winston.format
 
 let logger
 
 const loggerFormat = () => {
-    const formatMessage = ({ level, message, timestamp, ...rest }) =>
-        `${timestamp} | ${level} | ${message} | ${JSON.stringify(rest)}`
+    const formatMessage = ({ level, message, _timestamp, ...rest }) =>
+        `${_timestamp} | ${level} | ${message} | ${JSON.stringify(rest)}`
 
     // Errors don't have a decent toString, so we need to format them manually
     const formatError = ({ error: { stack }, ...rest }) =>

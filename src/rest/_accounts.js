@@ -1,10 +1,11 @@
 const Router = require("@koa/router")
 const Joi = require("joi")
 
-const accountService = require("../service/account") //nog toevoegen
+const accountService = require("../service/account") // nog toevoegen
 const validate = require("../core/validation")
 const { requireAuthentication, makeRequireRole } = require("../core/auth")
 const Role = require("../core/roles")
+const { getLogger } = require("../core/logging")
 
 const checkAccountId = (ctx, next) => {
     const { accountId, roles } = ctx.state.session
@@ -66,7 +67,7 @@ createAccount.validationScheme = {
     body: {
         userName: Joi.string(),
         email: Joi.string(),
-        password_hash: Joi.string(),
+        passwordHash: Joi.string(),
     },
 }
 
@@ -98,7 +99,8 @@ deleteAccount.validationScheme = {
 }
 
 const register = async (ctx) => {
-    console.log(ctx.request.body)
+    const logger = getLogger()
+    logger(ctx.request.body)
     const account = await accountService.register(ctx.request.body)
     ctx.status = 200
     ctx.body = account
@@ -112,11 +114,11 @@ register.validationScheme = {
 }
 
 const login = async (ctx) => {
-    const email = ctx.request.body.email
-    const password = ctx.request.body.password
-    console.log(email)
-    const token = await accountService.login(email, password)
-    ctx.body = token
+    const { email } = ctx.request.body
+    const { password } = ctx.request.body
+
+    const loginData = await accountService.login(email, password)
+    ctx.body = loginData
 }
 login.validationScheme = {
     body: {

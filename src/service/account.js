@@ -61,14 +61,14 @@ const getById = async (id) => {
     return account
 }
 
-const create = async ({ userName, email, password_hash, roles }) => {
-    debugLog("Creating new account", { userName, email, password_hash, roles })
+const create = async ({ userName, email, passwordHash, roles }) => {
+    debugLog("Creating new account", { userName, email, passwordHash, roles })
 
     try {
         const id = await accountRepository.create({
             userName,
             email,
-            password_hash,
+            passwordHash,
             roles,
         })
         return getById(id)
@@ -91,6 +91,15 @@ const updateById = async (id, { userName, email }) => {
 const deleteById = async (id) => {
     debugLog(`Deleting account with id ${id}`)
     await accountRepository.deleteById(id)
+}
+
+const makeLoginData = async (account) => {
+    const token = await generateJWT(account)
+
+    return {
+        user: account,
+        jwt: token,
+    }
 }
 
 /**
@@ -116,14 +125,6 @@ const register = async ({ userName, email, password }) => {
     }
 }
 
-const makeLoginData = async (account) => {
-    const token = await generateJWT(account)
-    return {
-        account: account,
-        token,
-    }
-}
-
 const login = async (email, password) => {
     const account = await accountRepository.findByEmail(email)
     if (!account) {
@@ -133,7 +134,7 @@ const login = async (email, password) => {
         )
     }
 
-    const passwordValid = await verifyPassword(password, account.password_hash)
+    const passwordValid = await verifyPassword(password, account.passwordHash)
 
     if (!passwordValid) {
         // DO NOT expose we know the account but an invalid password was given
@@ -142,7 +143,8 @@ const login = async (email, password) => {
         )
     }
 
-    return await makeLoginData(account)
+    const loginData = await makeLoginData(account)
+    return loginData
 }
 
 module.exports = {

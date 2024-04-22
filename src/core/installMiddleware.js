@@ -74,7 +74,7 @@ module.exports = function installMiddleware(app) {
                 error,
             })
             let statusCode = error.status || 500
-            let errorBody = {
+            const errorBody = {
                 code: error.code || "INTERNAL_SERVER_ERROR",
                 message: error.message,
                 details: error.details || {},

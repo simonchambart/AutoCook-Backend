@@ -1,17 +1,15 @@
 const { getKnex, tables } = require("../data/index")
 const { getLogger } = require("../core/logging")
 
-const formatAccount = ({ ...account }) => {
-    return {
-        ...account,
-    }
-}
+const formatAccount = ({ ...account }) => ({
+    ...account,
+})
 
 const SELECT_COLUMNS = [
     `${tables.account}.id`,
     "userName",
     "email",
-    "password_hash",
+    "passwordHash",
     "roles",
 ]
 
@@ -34,7 +32,7 @@ const create = async ({ userName, email, passwordHash, roles }) => {
         const [id] = await getKnex()(tables.account).insert({
             userName,
             email,
-            password_hash: passwordHash,
+            passwordHash,
             roles: JSON.stringify(roles),
         })
         return id
