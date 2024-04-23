@@ -15,6 +15,7 @@ module.exports = {
                 bankDetails: "",
                 contactDetails: "",
                 email: "delaware@email.com",
+                // password: "12345678"
                 passwordHash:
                     "$argon2id$v=19$m=131072,t=6,p=1$9AMcua9h7va8aUQSEgH/TA$TUFuJ6VPngyGThMBVo3ONOZ5xYfee9J1eNMcA5bSpq4",
                 roles: JSON.stringify([Role.ADMIN]),
@@ -27,6 +28,7 @@ module.exports = {
                 bankDetails: "BE 22 1201 2123 5004 8",
                 contactDetails: "+320486436056",
                 email: "SwiftGroup@email.com",
+                // password: "12345678"
                 passwordHash:
                     "$argon2id$v=19$m=131072,t=6,p=1$9AMcua9h7va8aUQSEgH/TA$TUFuJ6VPngyGThMBVo3ONOZ5xYfee9J1eNMcA5bSpq4",
                 roles: JSON.stringify([Role.SUPPLIER]),
@@ -39,6 +41,7 @@ module.exports = {
                 bankDetails: "BE44 0018 2557 4292",
                 contactDetails: "+3254560467",
                 email: "BrownLLC@email.com",
+                // password: "12345678"
                 passwordHash:
                     "$argon2id$v=19$m=131072,t=6,p=1$9AMcua9h7va8aUQSEgH/TA$TUFuJ6VPngyGThMBVo3ONOZ5xYfee9J1eNMcA5bSpq4",
                 roles: JSON.stringify([Role.CUSTOMER]),
