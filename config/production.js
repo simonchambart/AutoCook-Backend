@@ -10,7 +10,7 @@ module.exports = {
         client: "mysql2",
         host: "localhost",
         port: 3306,
-        name: "delaware-prod",
+        name: "autocook-prod",
     },
     auth: {
         argon: {

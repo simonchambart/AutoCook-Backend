@@ -11,7 +11,7 @@ module.exports = {
         host: "127.0.0.1",
         client: "mysql2",
         port: 3306,
-        name: "delaware-test",
+        name: "autocook-test",
         username: "root",
         password: "",
     },

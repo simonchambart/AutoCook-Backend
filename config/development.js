@@ -11,7 +11,7 @@ module.exports = {
     database: {
         host: "127.0.0.1",
         port: 3306,
-        name: "delaware",
+        name: "autocook",
         client: "mysql2",
     },
     auth: {
@@ -25,8 +25,8 @@ module.exports = {
             secret: "eenveeltemoeilijksecretdatniemandooitzalradenandersisdesitegehacked" /* dit best in de .env.development file zetten voor beveiliging
              */,
             expirationInterval: 60 * 60 * 1000, // ms (1 hour)
-            issuer: "vc-01",
-            audience: "vc-01",
+            issuer: "SimonChambart",
+            audience: "SimonChambart",
         },
     },
 }
