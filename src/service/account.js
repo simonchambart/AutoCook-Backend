@@ -3,7 +3,6 @@ const accountRepository = require("../repository/account")
 const ServiceError = require("../core/serviceError")
 const { hashPassword, verifyPassword } = require("../core/password")
 const { generateJWT, verifyJWT } = require("../core/jwt")
-const Role = require("../core/roles")
 
 const handleDBError = require("./_handleDBError")
 
@@ -18,25 +17,14 @@ const checkAndParseSession = async (authHeader) => {
 
     const authToken = authHeader.substring(7)
     try {
-        const { roles, accountId } = await verifyJWT(authToken)
+        const { accountId } = await verifyJWT(authToken)
         return {
             accountId,
-            roles,
             authToken,
         }
     } catch (error) {
         getLogger().error(error.message, { error })
         throw new Error(error.message)
-    }
-}
-
-const checkRole = (role, roles) => {
-    const hasPermission = roles.includes(role)
-
-    if (!hasPermission) {
-        throw ServiceError.forbidden(
-            "You are not allowed to view this part of the application",
-        )
     }
 }
 
@@ -61,15 +49,15 @@ const getById = async (id) => {
     return account
 }
 
-const create = async ({ userName, email, passwordHash, roles }) => {
-    debugLog("Creating new account", { userName, email, passwordHash, roles })
+const create = async ({ voornaam, achternaam, email, passwordHash }) => {
+    debugLog("Creating new account", { voornaam, achternaam, email, passwordHash})
 
     try {
         const id = await accountRepository.create({
-            userName,
+            voornaam,
+            achternaam,
             email,
-            passwordHash,
-            roles,
+            passwordHash
         })
         return getById(id)
     } catch (error) {
@@ -77,11 +65,11 @@ const create = async ({ userName, email, passwordHash, roles }) => {
     }
 }
 
-const updateById = async (id, { userName, email }) => {
-    debugLog(`Updating account with id ${id}`, { userName, email })
+const updateById = async (id, { voornaam, achternaam, email }) => {
+    debugLog(`Updating account with id ${id}`, { voornaam, achternaam, email })
 
     try {
-        await accountRepository.updateById(id, { userName, email })
+        await accountRepository.updateById(id, { voornaam, achternaam, email })
         return getById(id)
     } catch (error) {
         throw handleDBError(error)
@@ -106,17 +94,17 @@ const makeLoginData = async (account) => {
  * Register a person.
  *
  * @param {object} account - Account to save.
- * @param {string} [account.userName] - Name of the account.
+ * @param {string} [account.email] - Email of the account.
  */
 
-const register = async ({ userName, email, password }) => {
+const register = async ({ voornaam, achternaam, email, password }) => {
     try {
         const passwordHash = await hashPassword(password)
         const accountId = await accountRepository.create({
-            userName,
+            voornaam,
+            achternaam,
             email,
             passwordHash,
-            roles: [Role.USER],
         })
         const account = await accountRepository.findById(accountId)
         return await makeLoginData(account)
@@ -148,7 +136,6 @@ const login = async (email, password) => {
 }
 
 module.exports = {
-    checkRole,
     checkAndParseSession,
     getAll,
     getById,

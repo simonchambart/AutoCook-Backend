@@ -7,10 +7,10 @@ const formatAccount = ({ ...account }) => ({
 
 const SELECT_COLUMNS = [
     `${tables.account}.id`,
-    "userName",
+    "voornaam",
+    "achternaam",
     "email",
     "passwordHash",
-    "roles",
 ]
 
 const findAll = async () => {
@@ -27,13 +27,13 @@ const findById = async (id) => {
     return account && formatAccount(account)
 }
 
-const create = async ({ userName, email, passwordHash, roles }) => {
+const create = async ({ voornaam, achternaam, email, passwordHash }) => {
     try {
         const [id] = await getKnex()(tables.account).insert({
-            userName,
+            voornaam,
+            achternaam,
             email,
             passwordHash,
-            roles: JSON.stringify(roles),
         })
         return id
     } catch (error) {
@@ -45,11 +45,12 @@ const create = async ({ userName, email, passwordHash, roles }) => {
     }
 }
 
-const updateById = async (id, { userName, email }) => {
+const updateById = async (id, { voornaam, achternaam,email }) => {
     try {
         await getKnex()(tables.account)
             .update({
-                userName,
+                voornaam,
+                achternaam,
                 email,
             })
             .where("id", id)

@@ -10,7 +10,6 @@ const generateJWT = (account) => {
     // eigen claims
     const tokenData = {
         accountId: account.id,
-        roles: account.roles,
     }
 
     // voorgedefinieerde claims

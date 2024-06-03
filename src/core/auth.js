@@ -12,14 +12,7 @@ const requireAuthentication = async (ctx, next) => {
     return next()
 }
 
-const makeRequireRole = (role) => async (ctx, next) => {
-    const { roles = [] } = ctx.state.session
-
-    accountService.checkRole(role, roles)
-    return next()
-}
 
 module.exports = {
     requireAuthentication,
-    makeRequireRole,
 }

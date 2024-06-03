@@ -3,43 +3,8 @@ const Joi = require("joi")
 
 const accountService = require("../service/account") // nog toevoegen
 const validate = require("../core/validation")
-const { requireAuthentication, makeRequireRole } = require("../core/auth")
-const Role = require("../core/roles")
+const { requireAuthentication} = require("../core/auth")
 const { getLogger } = require("../core/logging")
-
-const checkAccountId = (ctx, next) => {
-    const { accountId, roles } = ctx.state.session
-    const { id } = ctx.params
-
-    // You can only get our own data unless you're an admin
-    if (id !== accountId && !roles.includes(Role.ADMIN)) {
-        return ctx.throw(
-            403,
-            "You are not allowed to view this acount's information",
-            {
-                code: "FORBIDDEN",
-            },
-        )
-    }
-    return next()
-}
-
-const checkAccountIdForEdit = (ctx, next) => {
-    const { accountId, roles } = ctx.state.session
-    const { id } = ctx.params
-
-    // You can only get our own data unless you're a premium
-    if (id !== accountId && !roles.includes(Role.PREMIUM)) {
-        return ctx.throw(
-            403,
-            "You need to have a premium account to edit your profile!",
-            {
-                code: "FORBIDDEN",
-            },
-        )
-    }
-    return next()
-}
 
 const getAllAccounts = async (ctx) => {
     ctx.body = await accountService.getAll()
@@ -65,7 +30,8 @@ const createAccount = async (ctx) => {
 
 createAccount.validationScheme = {
     body: {
-        userName: Joi.string(),
+        voornaam: Joi.string(),
+        achternaam: Joi.string(),
         email: Joi.string(),
         passwordHash: Joi.string(),
     },
@@ -83,7 +49,8 @@ updateAccountById.validationScheme = {
     },
     body: {
         id: Joi.number().integer().positive().optional(),
-        userName: Joi.string(),
+        voornaam: Joi.string(),
+        achternaam: Joi.string(),
         email: Joi.string().email(),
     },
 }
@@ -140,34 +107,27 @@ module.exports = (app) => {
     router.post("/login", validate(login.validationScheme), login)
     router.post("/register", validate(register.validationScheme), register)
 
-    const requireAdmin = makeRequireRole(Role.ADMIN)
-
     router.get(
         "/",
         requireAuthentication,
-        requireAdmin,
-        checkAccountId,
         getAllAccounts,
     )
     router.get(
         "/:id",
         requireAuthentication,
         validate(getAccountById.validationScheme),
-        checkAccountId,
         getAccountById,
     )
     // router.post('/', validate(createAccount.validationScheme), createAccount);  //volgens mij mag deze nu weg omdat je al een register methode hebt
     router.put(
         "/:id",
         requireAuthentication,
-        checkAccountIdForEdit,
         validate(updateAccountById.validationScheme),
         updateAccountById,
     )
     router.delete(
         "/:id",
         requireAuthentication,
-        checkAccountId,
         validate(deleteAccount.validationScheme),
         deleteAccount,
     )
