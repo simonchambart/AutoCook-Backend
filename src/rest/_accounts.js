@@ -4,7 +4,6 @@ const Joi = require("joi")
 const accountService = require("../service/account") // nog toevoegen
 const validate = require("../core/validation")
 const { requireAuthentication} = require("../core/auth")
-const { getLogger } = require("../core/logging")
 
 const getAllAccounts = async (ctx) => {
     ctx.body = await accountService.getAll()
@@ -66,15 +65,14 @@ deleteAccount.validationScheme = {
 }
 
 const register = async (ctx) => {
-    const logger = getLogger()
-    logger(ctx.request.body)
     const account = await accountService.register(ctx.request.body)
     ctx.status = 200
     ctx.body = account
 }
 register.validationScheme = {
     body: {
-        userName: Joi.string(),
+        voornaam: Joi.string(),
+        achternaam: Joi.string(),
         email: Joi.string().email(),
         password: Joi.string().min(2).max(30),
     },
