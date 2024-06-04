@@ -113,6 +113,7 @@ function getKnex() {
 
 const tables = Object.freeze({
     account: "accounts",
+    clicks: "clicks"
 })
 
 module.exports = {

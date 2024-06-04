@@ -1,6 +1,7 @@
 const Router = require("@koa/router")
 
 const installAccountRouter = require("./_accounts")
+const installClicksRouter = require("./_clicks")
 
 /**
  * Install all routes in the given Koa application.
@@ -12,6 +13,7 @@ module.exports = (app) => {
         prefix: "/api",
     })
     installAccountRouter(router)
+    installClicksRouter(router)
 
     app.use(router.routes()).use(router.allowedMethods())
 }

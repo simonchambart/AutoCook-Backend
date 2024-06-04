@@ -1,7 +1,7 @@
 const Router = require("@koa/router")
 const Joi = require("joi")
 
-const accountService = require("../service/account") // nog toevoegen
+const accountService = require("../service/account")
 const validate = require("../core/validation")
 const { requireAuthentication} = require("../core/auth")
 
@@ -116,7 +116,6 @@ module.exports = (app) => {
         validate(getAccountById.validationScheme),
         getAccountById,
     )
-    // router.post('/', validate(createAccount.validationScheme), createAccount);  //volgens mij mag deze nu weg omdat je al een register methode hebt
     router.put(
         "/:id",
         requireAuthentication,
