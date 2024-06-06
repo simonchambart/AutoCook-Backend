@@ -39,11 +39,11 @@ const create = async ({ clickDetails, createdAt }) => {
     }
 }
 
-const updateById = async (id, { clickDetails, createdAt }) => {
-    debugLog(`Updating clicks with id ${id}`, { clickDetails, createdAt })
+const updateById = async (id,  newClickDetail ) => {
+    debugLog(`Updating clicks with id ${id}`, { newClickDetail })
 
     try {
-        await clicksRepository.updateById(id, { clickDetails, createdAt })
+        await clicksRepository.updateById(id,  newClickDetail )
         return getById(id)
     } catch (error) {
         throw handleDBError(error)

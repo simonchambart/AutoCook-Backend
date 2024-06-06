@@ -27,8 +27,8 @@ const findById = async (id) => {
 
 const create = async ({ clickDetails, createdAt }) => {
     try {
-        const [id] = await getKnex()(tables.account).insert({
-            clickDetails, 
+        const [id] = await getKnex()(tables.clicks).insert({
+            clickDetails: JSON.stringify(clickDetails), 
             createdAt,
         })
         return id
@@ -41,23 +41,39 @@ const create = async ({ clickDetails, createdAt }) => {
     }
 }
 
-const updateById = async (id, { clickDetails, createdAt }) => {
+const updateById = async (id, newClickDetail) => {
     try {
-        await getKnex()(tables.account)
+        // Stap 1: Huidige clickDetails ophalen
+        const existingRecord = await getKnex()(tables.clicks)
+            .select('clickDetails')
+            .where('id', id)
+            .first();
+
+        if (!existingRecord) {
+            throw new Error('Record not found');
+        }
+
+        const {clickDetails} = existingRecord;
+        
+        // Stap 2: Nieuwe clickDetail toevoegen aan de array
+        clickDetails.push(newClickDetail);
+
+        // Stap 3: Bijgewerkte clickDetails opslaan
+        await getKnex()(tables.clicks)
             .update({
-                clickDetails, 
-                createdAt
+                clickDetails: JSON.stringify(clickDetails)
             })
-            .where("id", id)
-        return id
+            .where('id', id);
+
+        return id;
     } catch (error) {
-        const logger = getLogger()
+        const logger = getLogger();
         logger.error("Error in update", {
             error,
-        })
-        throw new Error("update failed")
+        });
+        throw new Error("update failed");
     }
-}
+};
 
 const deleteById = async (id) => {
     const rowsAffected = await getKnex()(tables.clicks)

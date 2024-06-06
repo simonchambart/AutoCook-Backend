@@ -34,9 +34,9 @@ createClicks.validationScheme = {
 }
 
 const updateClicksById = async (ctx) => {
-    ctx.body = await clicksService.updateById(Number(ctx.params.id), {
-        ...ctx.request.body,
-    })
+    ctx.body = await clicksService.updateById(Number(ctx.params.id),
+        ctx.request.body.newClickDetail,
+    )
 }
 
 updateClicksById.validationScheme = {
@@ -44,9 +44,7 @@ updateClicksById.validationScheme = {
         id: Joi.number().integer().positive(),
     },
     body: {
-        id: Joi.number().integer().positive().optional(),
-        clickDetails: Joi.array(),   // .items(Joi.string()).required(), DIT KAN JE ACHTERAF ERBIJ ZETTEN VOOR EXTRA VALIDATION MAAR DIT HEB IK NOG NIET OP FOUTEN GETEST
-        createdAt: Joi.date()
+        newClickDetail: Joi.string(),   // .items(Joi.string()).required(), DIT KAN JE ACHTERAF ERBIJ ZETTEN VOOR EXTRA VALIDATION MAAR DIT HEB IK NOG NIET OP FOUTEN GETEST
     },
 }
 
