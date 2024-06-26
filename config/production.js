@@ -4,6 +4,7 @@ module.exports = {
         disabled: false,
     },
     cors: {
+        origins: ['https://webservice-creator2324.onrender.com'],
         maxAge: 3 * 60 * 60,
     },
     database: {
